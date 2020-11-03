@@ -33,7 +33,9 @@ public:
 		asio::ip::tcp::socket sock(m_ios);
 		m_acceptor.accept(sock);
 		Service svc;
-		std::cout << sock.local_endpoint().address().to_string() << std::endl;
+		std::cout << "conexion desde ";
+		std::cout << sock.local_endpoint().address().to_string() << ":" << 
+			sock.remote_endpoint().port() << std::endl;
 		svc.HandleClient(sock);
 	}
 private:

@@ -34,6 +34,7 @@ public:
 private:
 	void Run(unsigned short port_num) {
 		Acceptor acc(m_ios, port_num);
+		std::cout << "Servidor asincrono corriendo en el puerto " << port_num << std::endl;
 		while (!m_stop.load()) {
 			acc.Accept();
 		}

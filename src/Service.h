@@ -13,6 +13,8 @@
 #include <atomic>
 #include <memory>
 #include <iostream>
+#include <chrono>
+#include <ctime>
 
 using namespace boost;
 
@@ -21,17 +23,13 @@ public:
 	Service(){}
 	void HandleClient(asio::ip::tcp::socket& sock) {
 		try {
+			std::time_t tt;
 			asio::streambuf request;
+
+			tt = std::chrono::system_clock::to_time_t( std::chrono::system_clock::now());
 			asio::read_until(sock, request, '\n');
-			// Emulate request processing.
-			int i = 0;
-			while (i != 1000000)
-				i++;
-			std::this_thread::sleep_for(
-					std::chrono::milliseconds(500));
-			// Sending response.
-			std::string response = "Response\n";
-			asio::write(sock, asio::buffer(response));
+			std::string respuesta = ctime( &tt );
+			asio::write(sock, asio::buffer(respuesta));
 		}
 		catch (system::system_error&e) {
 			std::cout << "Error occured! Error code = "
